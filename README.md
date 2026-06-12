@@ -86,6 +86,8 @@ search_listings(description, size, max_price)
         return session
 ```
 
+> **Note on query parsing:** Before calling `search_listings`, the agent makes one additional LLM call to parse the raw query string into structured `description`, `size`, and `max_price` fields. This is not a named tool — it runs inline in `run_agent()` in `agent.py`. It was not in the original spec but was added during implementation because users type natural language, not structured parameters.
+
 **Why each tool is called when it is:**
 
 1. **Query parsing** runs first because all three downstream tools depend on structured parameters. Users type natural language like "vintage tee under $30 size M" — the agent needs to extract `description`, `size`, and `max_price` before it can search anything.
